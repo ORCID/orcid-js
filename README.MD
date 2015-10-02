@@ -11,8 +11,9 @@ Usage
 There is also an example.html page
 
 	orcid.init(callback);
+	var orcidID = 0000-0000-0000-0000;//your orcid here!
 	function callback(){
-		//to get an array of citations strings via a callback use:
+		//to get an array of citation strings via a callback use:
 		orcid.resolveCitations(orcidID, onCompleteCallback);
 		// the default style is Chicago, we can ask for bibtex instead like this:
 		orcid.resolveCitations(orcidID, onCompleteCallback, orcid.styleBibtex);
