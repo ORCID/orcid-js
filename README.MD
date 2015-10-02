@@ -30,9 +30,9 @@ There is also an [example.html](https://github.com/TomDemeranville/orcid-js/blob
 
 	//If all you need is a list of titles, identifiers and URLS, use simpleWorks
 	//This also demonstrates how to access the API via swagger (full v2.0 api is supported)
-	var client = orcid.init(callback);
+	orcid.init(callback);
 	function callback(){
-		client.apis["Public API v2.0_rc1"].viewActivities({orcid:"0000-0000-0000-0000"}, function(data) {
+		orcid.client.apis["Public API v2.0_rc1"].viewActivities({orcid:"0000-0000-0000-0000"}, function(data) {
 			var simpleWorks = orcid.activitiesToSimpleWorks(data);
 			//do whatever with the simpleWorks
 		});
@@ -44,3 +44,10 @@ Dependencies
 swagger-client.js, jquery, citeproc-js 
 transitive: xmle4x.js,xmldom.js
 
+Notes
+-----
+Chrome always logs the following to the console:
+
+	xmle4x.js:11 Uncaught SyntaxError: Unexpected token default
+
+This is a citeproc dependency used by legacy browsers and does not affect function in Chrome/Firefox.
