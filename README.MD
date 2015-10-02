@@ -4,7 +4,7 @@ ORCID-JS
 A client side reference list generator for ORCID records
 --------------------------------------------------------
 
-This library can be used to generate on the fly reference lists from ORCID records.  It also exposes the entire V2.0_rc1 Public ORCID API via a swagger client (including the stats API).  It can be used to generate any CSL style, Citeproc-JSON or bibtex.
+This library can be used to generate on the fly reference lists from ORCID records.  It also exposes the entire [V2.0_rc1 Public ORCID API](https://pub.orcid.org/v2.0_rc1) via a swagger client (including the stats API).  It can be used to generate any CSL style, Citeproc-JSON or bibtex.
 
 The general flow is:
 *	Obtain a list of activites from an ORCID record
