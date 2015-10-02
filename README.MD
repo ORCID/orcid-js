@@ -39,6 +39,14 @@ There is also an [example.html](https://github.com/TomDemeranville/orcid-js/blob
 	}
 ```
 
+If you would like to load a citation format that is not supplied by default (APA, Chicago, Bibtex) then use the styles.js helper to fetch it from the server.  All the styles in the style repo should be available.  Something like this:
+
+```javascript
+	CSLStyles.fetchStyleXML("academy-of-management-review", function(styleXML){
+		orcid.resolveCitations(orcidID, updatePage, styleXML);		
+	});
+```
+
 Dependencies
 ------------
 swagger-client.js, jquery, citeproc-js 
