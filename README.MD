@@ -7,9 +7,10 @@ A client side reference list generator for ORCID records
 This library can be used to generate on the fly reference lists from ORCID records.  It also exposes the entire V2.0_rc1 Public ORCID API via a swagger client (including the stats API).  It can be used to generate any CSL style, Citeproc-JSON or bibtex.
 
 Usage
-=====
-There is also an example.html page
+-----
+There is also an [example.html](https://github.com/TomDemeranville/orcid-js/blob/master/example.html) page
 
+```javascript
 	orcid.init(callback);
 	var orcidID = 0000-0000-0000-0000;//your orcid here!
 	function callback(){
@@ -30,8 +31,10 @@ There is also an example.html page
 			//do whatever with the simpleWorks
 		});
 	}
+```
 
 Dependencies
-============
-swagger-client.js, jquery, citeproc-js [transitive xmle4x.js,xmldom.js]
+------------
+swagger-client.js, jquery, citeproc-js 
+transitive: xmle4x.js,xmldom.js
 
