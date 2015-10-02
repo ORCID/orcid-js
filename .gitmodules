@@ -1,0 +1,12 @@
+[submodule "swagger-js"]
+	path = swagger-js
+	url = https://github.com/swagger-api/swagger-js.git
+[submodule "citeproc-js"]
+	path = citeproc-js
+	url = https://bitbucket.org/fbennett/citeproc-js
+[submodule "styles"]
+	path = styles
+	url = https://github.com/citation-style-language/styles.git
+[submodule "locales"]
+	path = locales
+	url = https://github.com/citation-style-language/locales.git
