@@ -15,6 +15,10 @@ The general flow is:
 
 Usage
 -----
+The most useful method has this signature:
+
+	function resolveCitationsFromORCIDID(orcidID, callback, optionalCitationStyle, returnCiteprocObjects)
+
 There is also an [example.html](https://github.com/TomDemeranville/orcid-js/blob/master/example.html) page
 
 ```javascript
@@ -24,8 +28,8 @@ There is also an [example.html](https://github.com/TomDemeranville/orcid-js/blob
 		orcid.resolveCitations("0000-0000-0000-0000", onCompleteCallback);
 		// the default style is Chicago, we can ask for bibtex instead like this:
 		orcid.resolveCitations("0000-0000-0000-0000", onCompleteCallback, orcid.styleBibtex);
-		// if you want an array of citeproc objects instead, use this:
-		orcid.resolveCiteprocObjects("0000-0000-0000-0000", onCompleteCallback);	
+		// if you want an array of citeproc JSON objects instead, use this:
+		orcid.resolveCitations("0000-0000-0000-0000", onCompleteCallback, "", true);	
 	}
 
 	//If all you need is a list of titles, identifiers and URLS, use simpleWorks
@@ -54,6 +58,8 @@ transitive: xmle4x.js,xmldom.js
 
 Notes
 -----
+Due to the client having to make one request per work to resolve metadata, this can be rather slow for large records.  It would be possible to make a small modification of the code to fire _individual_ callbacks so that a list can be populated and presented to the user as results come back.
+
 Chrome always logs the following to the console:
 
 	xmle4x.js:11 Uncaught SyntaxError: Unexpected token default
