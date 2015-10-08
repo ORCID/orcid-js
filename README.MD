@@ -6,12 +6,18 @@ A client side reference list generator for ORCID records
 
 This library can be used to generate on the fly reference lists from ORCID records.  It also exposes the entire [V2.0_rc1 Public ORCID API](https://pub.orcid.org/v2.0_rc1) via a swagger client (including the stats API).  It can be used to generate any CSL style, Citeproc-JSON or bibtex.
 
-The general flow is:
-*	Obtain a list of activites from an ORCID record
-*	Filter and simplify to extract just works
-*	For each work, attempt to create a URL based on the idenfifier
-*	For each work, fetch the most authoritative source of citation metadata available (currently DOI or ORCID)
-*	Apply CSL to generate reference list or bibtex
+Hello world example
+-------------------
+```javascript
+	//write a reference list to the page in the default style (chicago)
+	orcid.init(function(){
+		orcid.resolveCitations("0000-0003-0902-4386", function(citations){
+			for (c in citations){
+				$("body").append(citations[c] +"<br/>");	
+			}
+		});		
+	});
+```
 
 Usage
 -----
@@ -58,6 +64,15 @@ transitive: xmle4x.js,xmldom.js
 
 Notes
 -----
+The general flow of the library is:
+*	Obtain a list of activites from an ORCID record
+*	Filter and simplify to extract just works
+*	For each work, attempt to create a URL based on the idenfifier
+*	For each work, fetch the most authoritative source of citation metadata available (currently DOI or ORCID)
+*	Apply CSL to generate reference list or bibtex
+
+Issues
+------
 Due to the client having to make one request per work to resolve metadata, this can be rather slow for large records.  It would be possible to make a small modification of the code to fire _individual_ callbacks so that a list can be populated and presented to the user as results come back.
 
 Chrome always logs the following to the console:
