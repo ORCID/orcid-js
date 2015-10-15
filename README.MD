@@ -19,6 +19,16 @@ Hello world example
 	});
 ```
 
+How metadata is obtained
+-----
+To generate citations, the library does the following:
+*	Obtain a public list of activites from an ORCID record
+*	For each work fetch the most authoritative source of citation metadata available for the preffered source
+**  For works with DOIs, citeproc metadata is obtained directly from Crossref or Datacite
+**  For other works, citeproc is obtained from the ORCID registry.  IF there is a bibtex citation, this is transformed into Citeproc, otherwise ORCID work metadata is used
+*	For each work, attempt to create a URL based on the idenfifier
+*	Apply CSL to generate reference list or bibtex
+
 Usage
 -----
 The most useful method has this signature:
@@ -61,15 +71,6 @@ Dependencies
 ------------
 swagger-client.js, jquery, citeproc-js 
 transitive: xmle4x.js,xmldom.js
-
-Notes
------
-The general flow of the library is:
-*	Obtain a list of activites from an ORCID record
-*	Filter and simplify to extract just works
-*	For each work, attempt to create a URL based on the idenfifier
-*	For each work, fetch the most authoritative source of citation metadata available (currently DOI or ORCID)
-*	Apply CSL to generate reference list or bibtex
 
 Issues
 ------
