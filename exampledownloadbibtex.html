@@ -33,13 +33,13 @@ function doDownload(citations){
         $("#downloadlink").click(function(){
             window.navigator.msSaveOrOpenBlob(blobObject, "orcid.bib");
         });
+        $("#downloadlink").click();
     } else {
         var url = "data:text/plain;charset=utf-8," + encodeURIComponent(text);
         $("#downloadlink").attr("download", "orcid.bib");
         $("#downloadlink").attr("href", url);
+        document.getElementById("downloadlink").click();   
     }
-    //use plain javascript as JQuery click does odd things.
-    document.getElementById("downloadlink").click()
 }
 
 </script>
