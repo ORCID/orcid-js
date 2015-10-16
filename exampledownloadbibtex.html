@@ -26,13 +26,20 @@ function doDownload(citations){
 	}
 	text = text.replace(/<div class="csl-entry">/g, '');
 	text = text.replace(/<\/div>/g, '');
-	var blob = new Blob([text], {type: 'text/plain'});
-
-	//create a file that can be downloaded
-	//this probably doesn't work in IE.
-	var link = document.getElementById('downloadlink');
-    link.href = window.URL.createObjectURL(blob);
-    link.style.display = 'block';
+	//One method for IE, one for chrome and firefox
+	if(window.navigator.msSaveOrOpenBlob) {
+        var fileData = [text];
+        blobObject = new Blob(fileData, {type: 'text/plain'});
+        $("#downloadlink").click(function(){
+            window.navigator.msSaveOrOpenBlob(blobObject, "orcid.bib");
+        });
+    } else {
+        var url = "data:text/plain;charset=utf-8," + encodeURIComponent(text);
+        $("#downloadlink").attr("download", "orcid.bib");
+        $("#downloadlink").attr("href", url);
+    }
+    //use plain javascript as JQuery click does odd things.
+    document.getElementById("downloadlink").click()
 }
 
 </script>
