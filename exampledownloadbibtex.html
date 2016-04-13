@@ -14,7 +14,7 @@ var orcidID = "0000-0003-0902-4386";
 
 $( document ).ready(function() {
 	orcid.init(function(){
-		orcid.resolveCitations(orcidID, doDownload, orcid.styleBibtex);
+		orcid.resolveCitations(orcidID, doDownload, false, orcid.styleBibtex);
 	});
 });
 

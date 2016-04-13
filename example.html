@@ -10,23 +10,43 @@
 
 var orcidID = "0000-0003-0902-4386";
 
+/*
+//initialise the library once all the scripts have finished loading
 $( document ).ready(function() {
 	$("#bib").append("Loading "+orcidID);
 	orcid.init(resolve);
 });
 
-function resolve(){
-	CSLStyles.fetchStyleXML("ieee-with-url", function(styleXML){
-		orcid.resolveCitations(orcidID, updatePage, styleXML);		
+//this is called when the library has finished initialising
+//it fetches the style XML (an optional step)
+//then resolves all the citations for the given ORCID record asynchronously
+function resolve(){	
+	CSLStyles.fetchStyleXML("apa", function(styleXML){
+		orcid.resolveCitations(orcidID, updatePageCallback, true, styleXML);	
 	});
 }
 
-function updatePage(citations){
-	$("#bib").empty();
+//this is called for each citation - it's an array containing one text citation
+function updatePageCallback(citations){
 	for (c in citations){
 		$("#bib").append(citations[c] +"<br/>");	
 	}
 }
+*/
+//note - citations can be fetched as a batch, and use the default style.
+//in this case, the callback recieves an array containing ALL citations.
+
+$( document ).ready(function() {
+	$("#bib").append("Loading "+orcidID);
+	orcid.init(function(){
+		orcid.resolveCitations(orcidID, function(citations){
+			for (c in citations){
+				$("#bib").append(citations[c] +"<br/>");	
+			}
+		});
+	});
+});
+
 
 </script>
 

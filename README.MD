@@ -10,6 +10,7 @@ Hello world example
 -------------------
 ```javascript
 	//write a reference list to the page in the default style (chicago)
+	//fetches citations asynchronously, so order is not guarenteed
 	orcid.init(function(){
 		orcid.resolveCitations("0000-0003-0902-4386", function(citations){
 			for (c in citations){
@@ -18,6 +19,14 @@ Hello world example
 		});		
 	});
 ```
+
+Viewing the examples locally
+----------------------------
+Chrome and Firefox will prevent the browser from loading other resources from the file system.  To test locally, you need to server the files from a webserver.  This can easily be done using python.  Run the following command:
+
+```python -m SimpleHTTPServer
+
+Then access the example at http://localhost:8000/example.html
 
 Where does the metadata come from?
 -----
@@ -35,19 +44,21 @@ Usage
 -----
 The most useful method has this signature:
 
-	function resolveCitationsFromORCIDID(orcidID, callback, optionalCitationStyle, returnCiteprocObjects)
+	function resolveCitationsFromORCIDID(orcidID, callback, oneByOne, optionalCitationStyle, returnCiteprocObjects)
 
 There is also an [example.html](https://github.com/TomDemeranville/orcid-js/blob/master/example.html) page
 
 ```javascript
 	orcid.init(callback);
 	function callback(){
-		//to get an array of citation strings via a callback use:
-		orcid.resolveCitations("0000-0000-0000-0000", onCompleteCallback);
+		//to fetch asyncronously and have the callback called once for each citation (recommended) use:
+		orcid.resolveCitations("0000-0000-0000-0000", onCompleteCallback, true);
+		//to get the citations an array of citation strings via a callback as a batch use:
+		orcid.resolveCitations("0000-0000-0000-0000", onCompleteCallback, false);
 		// the default style is Chicago, we can ask for bibtex instead like this:
-		orcid.resolveCitations("0000-0000-0000-0000", onCompleteCallback, orcid.styleBibtex);
+		orcid.resolveCitations("0000-0000-0000-0000", onCompleteCallback, false, orcid.styleBibtex);
 		// if you want an array of citeproc JSON objects instead, use this:
-		orcid.resolveCitations("0000-0000-0000-0000", onCompleteCallback, "", true);	
+		orcid.resolveCitations("0000-0000-0000-0000", onCompleteCallback, true, "", true);	
 	}
 
 	//If all you need is a list of titles, identifiers and URLS, use simpleWorks
@@ -65,7 +76,7 @@ If you would like to load a citation format that is not supplied by default (APA
 
 ```javascript
 	CSLStyles.fetchStyleXML("academy-of-management-review", function(styleXML){
-		orcid.resolveCitations(orcidID, updatePage, styleXML);		
+		orcid.resolveCitations(orcidID, updatePage, true, styleXML);		
 	});
 ```
 
@@ -74,10 +85,13 @@ Dependencies
 swagger-client.js, jquery, citeproc-js 
 transitive: xmle4x.js,xmldom.js
 
+When cloning this repository, you must run
+```git submodule init
+```git submodule update
+To fetch the dependancies
+
 Issues
 ------
-Due to the client having to make one request per work to resolve metadata, this can be rather slow for large records.  It would be possible to make a small modification of the code to fire _individual_ callbacks so that a list can be populated and presented to the user as results come back.
-
 Chrome always logs the following to the console:
 
 	xmle4x.js:11 Uncaught SyntaxError: Unexpected token default
