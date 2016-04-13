@@ -10,7 +10,6 @@
 
 var orcidID = "0000-0003-0902-4386";
 
-/*
 //initialise the library once all the scripts have finished loading
 $( document ).ready(function() {
 	$("#bib").append("Loading "+orcidID);
@@ -32,10 +31,11 @@ function updatePageCallback(citations){
 		$("#bib").append(citations[c] +"<br/>");	
 	}
 }
-*/
+
 //note - citations can be fetched as a batch, and use the default style.
 //in this case, the callback recieves an array containing ALL citations.
-
+//the following demonstrates this
+/*
 $( document ).ready(function() {
 	$("#bib").append("Loading "+orcidID);
 	orcid.init(function(){
@@ -46,7 +46,7 @@ $( document ).ready(function() {
 		});
 	});
 });
-
+*/
 
 </script>
 
