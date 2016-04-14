@@ -9,7 +9,7 @@
 
 <script type="text/javascript">
 
-var orcidID = " 0000-0001-5936-339X";
+var orcidID = "0000-0001-5936-339X";
 
 //initialise the library once all the scripts have finished loading
 $( document ).ready(function() {
@@ -27,9 +27,13 @@ function resolve(){
 }
 
 //this is called for each citation - it's an array containing one text citation
-function updatePageCallback(citations){
+//if it failed, the the fails parameter contains the work that failed (as a SimpleWork)
+function updatePageCallback(citations, fails){
 	for (c in citations){
 		$("#bib").append(citations[c] +"<br/>");	
+	}
+	for (f in fails){
+		$("#bibfails").append(fails[f].title + " (" + fails[f].citeprocURL+")<br/>");		
 	}
 }
 
@@ -54,4 +58,6 @@ $( document ).ready(function() {
 <body>
   <h3>My works:</h3>
   <div id="bib"></div>
+  <h3>Failed to resolve:</h3>
+  <div id="bibfails"></div>
 </body>

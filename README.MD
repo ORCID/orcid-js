@@ -12,9 +12,12 @@ Hello world example
 	//write a reference list to the page in the default style (chicago)
 	//fetches citations asynchronously, so order is not guarenteed
 	orcid.init(function(){
-		orcid.resolveCitations("0000-0003-0902-4386", function(citations){
+		orcid.resolveCitations("0000-0003-0902-4386", function(citations, failures){
 			for (c in citations){
 				$("body").append(citations[c] +"<br/>");	
+			}
+			for (f in failures){
+				$("body").append(failures[f].title + " (" + failures[f].citeprocURL+") FAILED to fetch metadata<br/>");		
 			}
 		});		
 	});
