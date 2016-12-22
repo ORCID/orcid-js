@@ -29,45 +29,48 @@ var orcid = function(){
 		client.apis["Public API v2.0_rc4"].viewActivities({orcid:orcidID}, function(data) {
 			if (data && data.obj && data.obj.works && data.obj.works.group)
 				var worksList = data.obj.works.group.map(function(obj){ 
-					var title = obj["work-summary"][0].title.title.value;
-					title = title.replace(/,/g,"-");
-					if (obj["external-ids"] && obj["external-ids"]["external-id"] && obj["external-ids"]["external-id"][0]){
-						$.each(obj["external-ids"]["external-id"], function(){
-							var id1 = this["external-id-value"];
-							var idType1 = this["external-id-type"];
-							$('#output').append('"WORK","'+orcidID +'","'+title +'","'+id1+'","'+idType1+'"\n');
-						});
-					} 
+					client.apis["Public API v2.0_rc4"].viewWork({orcid:orcidID,putCode:obj["work-summary"][0]["put-code"]},function(work){
+						var journalTitle = "undefined"
+						if (work.obj["journal-title"] && work.obj["journal-title"].value)
+							journalTitle = work.obj["journal-title"].value.replace(/,/g,"-");
+						var title = obj["work-summary"][0].title.title.value.replace(/,/g,"-");
+						if (obj["external-ids"] && obj["external-ids"]["external-id"] && obj["external-ids"]["external-id"][0]){
+							$.each(obj["external-ids"]["external-id"], function(){
+								var id1 = this["external-id-value"];
+								var idType1 = this["external-id-type"];
+								$('#output').append('"WORK","'+orcidID +'","'+title +'","'+id1+'","'+idType1+'","'+journalTitle+'"\n');
+							});
+						} 
+	
+					} );
 				});
 			if (data && data.obj && data.obj.employments && data.obj.employments["employment-summary"])
 				var eduList = data.obj.employments["employment-summary"].map(function(obj){ 
-					var title = obj.organization.name;
-					title = title.replace(/,/g,"-");
+					var orgTitle = obj.organization.name.replace(/,/g,"-");
 					if (obj.organization["disambiguated-organization"]){
 						var id1 = obj.organization["disambiguated-organization"]["disambiguated-organization-identifier"];
 						var idType1 = obj.organization["disambiguated-organization"]["disambiguation-source"];
 					}	
-					$('#output').append('"EMPLOYMENT","'+orcidID +'","'+title +'","'+id1+'","'+idType1+'"\n');
+					$('#output').append('"EMPLOYMENT","'+orcidID +'","'+orgTitle +'","'+id1+'","'+idType1+'",""\n');
 				});
 			if (data && data.obj && data.obj.educations && data.obj.educations["education-summary"])
 				var eduList = data.obj.educations["education-summary"].map(function(obj){ 
-					var title = obj.organization.name;
-					title = title.replace(/,/g,"-");
+					var orgTitle= obj.organization.name.replace(/,/g,"-");
 					if (obj.organization["disambiguated-organization"]){
 						var id1 = obj.organization["disambiguated-organization"]["disambiguated-organization-identifier"];
 						var idType1 = obj.organization["disambiguated-organization"]["disambiguation-source"];
 					}	
-					$('#output').append('"EDUCATION","'+orcidID +'","'+title +'","'+id1+'","'+idType1+'"\n');
+					$('#output').append('"EDUCATION","'+orcidID +'","'+orgTitle +'","'+id1+'","'+idType1+'",""\n');
 				});
 			if (data && data.obj && data.obj.fundings && data.obj.fundings.group)
 				var eduList = data.obj.fundings.group.map(function(obj){ 
-					var title = obj["summary"][0].title.title.value; //funding title, not org name unti fix is made to rc4.
-					title = title.replace(/,/g,"-");
+					var fundingTitle = obj["summary"][0].title.title.value.replace(/,/g,"-"); //funding title, not org name unti fix is 
+					var orgTitle = "";
 					if (obj["summary"][0].organization && obj["summary"][0].organization["disambiguated-organization"]){
 						var id1 = obj["summary"][0].organization["disambiguated-organization"]["disambiguated-organization-identifier"];
 						var idType1 = obj["summary"][0].organization["disambiguated-organization"]["disambiguation-source"];
 					}	
-					$('#output').append('"FUNDING","'+orcidID +'","'+title +'","'+id1+'","'+idType1+'"\n');
+					$('#output').append('"FUNDING","'+orcidID +'","'+orgTitle +'","'+id1+'","'+idType1+'","'+fundingTitle+'"\n');
 				});
 
 		});
@@ -98,5 +101,6 @@ Enter some orcids here, one per line (<a style="text-decoration: underline" oncl
 <textarea id="orcids" style="width: 50%; height: 150px;"></textarea>
 <button onclick="orcid.processTextArea()">process</button>
 <hr/>
-<textarea id="output" style="width: 100%; height: 250px;"></textarea>
+<textarea id="output" style="width: 100%; height: 250px;">Type, ORCID, Work/Org Title, ID, IDTYPE, Publisher/Funding Title
+</textarea>
 </body>
