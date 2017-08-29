@@ -6,7 +6,7 @@
 var orcid = function(){
 
 	var pubSwagger = "https://pub.orcid.org/resources/swagger.json";
-	var pubAPI = "https://pub.orcid.org/v2.0_rc4";
+	var pubAPI = "https://pub.orcid.org/v2.0";
 	var client = null;
 
 	//initialises the swagger client.
@@ -26,10 +26,10 @@ var orcid = function(){
 
 	function processORCID(orcidID){
 		if (orcidID)
-		client.apis["Public API v2.0_rc4"].viewActivities({orcid:orcidID}, function(data) {
+		client.apis["Public API v2.0"].viewActivities({orcid:orcidID}, function(data) {
 			if (data && data.obj && data.obj.works && data.obj.works.group)
 				var worksList = data.obj.works.group.map(function(obj){ 
-					client.apis["Public API v2.0_rc4"].viewWork({orcid:orcidID,putCode:obj["work-summary"][0]["put-code"]},function(work){
+					client.apis["Public API v2.0"].viewWork({orcid:orcidID,putCode:obj["work-summary"][0]["put-code"]},function(work){
 						var journalTitle = "undefined"
 						if (work.obj["journal-title"] && work.obj["journal-title"].value)
 							journalTitle = work.obj["journal-title"].value.replace(/,/g,"-");
