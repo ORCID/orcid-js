@@ -27,7 +27,9 @@ Viewing the examples locally
 ----------------------------
 Chrome and Firefox will prevent the browser from loading other resources from the file system.  To test locally, you need to server the files from a webserver.  This can easily be done using python.  Run the following command:
 
-```python -m SimpleHTTPServer
+```
+python -m SimpleHTTPServer
+```
 
 Then access the example at http://localhost:8000/example.html
 
@@ -89,8 +91,10 @@ swagger-client.js, jquery, citeproc-js
 transitive: xmle4x.js,xmldom.js
 
 When cloning this repository, you must run
-```git submodule init
-```git submodule update
+```
+git submodule init
+git submodule update
+```
 To fetch the dependancies
 
 Issues
