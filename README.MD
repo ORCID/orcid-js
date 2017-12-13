@@ -27,17 +27,20 @@ Viewing the examples locally
 ----------------------------
 Chrome and Firefox will prevent the browser from loading other resources from the file system.  To test locally, you need to server the files from a webserver.  This can easily be done using python.  Run the following command:
 
-```python -m SimpleHTTPServer
+```
+python -m SimpleHTTPServer
+```
 
 Then access the example at http://localhost:8000/example.html
 
 Where does the metadata come from?
 -----
 To generate citations, the library does the following:
+
 *	Obtain a public list of activites from an ORCID record
 *	For each work fetch authoritative citation metadata available using the **prefered source**
-  *  For works with DOIs, citeproc metadata is obtained directly from Crossref or Datacite
-  *  For other works, citeproc is obtained from the ORCID registry.  If there is a BibTeX citation, this is transformed into Citeproc-JSON, otherwise ORCID work metadata is used
+*  For works with DOIs, citeproc metadata is obtained directly from Crossref or Datacite
+*  For other works, citeproc is obtained from the ORCID registry.  If there is a BibTeX citation, this is transformed into Citeproc-JSON, otherwise ORCID work metadata is used
 *	For each work, attempt to create a URL based on the idenfifier
 *	Apply a [CSL citation style](http://citationstyles.org/) to generate reference list or BibTeX
 
@@ -89,8 +92,10 @@ swagger-client.js, jquery, citeproc-js
 transitive: xmle4x.js,xmldom.js
 
 When cloning this repository, you must run
-```git submodule init
-```git submodule update
+```
+git submodule init
+git submodule update
+```
 To fetch the dependancies
 
 Issues

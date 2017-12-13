@@ -27,6 +27,16 @@ var orcid = function(){
 	function processORCID(orcidID){
 		if (orcidID)
 		client.apis["Public API v2.0"].viewActivities({orcid:orcidID}, function(data) {
+      
+			client.apis["Public API v2.0"].viewAddresses({orcid:orcidID}, function(add) {
+				if (add.obj && add.obj.address){
+					$.each(add.obj.address, function(){
+						$('#output').append('"COUNTRY","'+orcidID +'","'+this.country.value+'"\n');
+					});
+				}
+
+			});
+
 			if (data && data.obj && data.obj.works && data.obj.works.group)
 				var worksList = data.obj.works.group.map(function(obj){ 
 					client.apis["Public API v2.0"].viewWork({orcid:orcidID,putCode:obj["work-summary"][0]["put-code"]},function(work){
@@ -44,6 +54,7 @@ var orcid = function(){
 	
 					} );
 				});
+
 			if (data && data.obj && data.obj.employments && data.obj.employments["employment-summary"])
 				var eduList = data.obj.employments["employment-summary"].map(function(obj){ 
 					var orgTitle = obj.organization.name.replace(/,/g,"-");
@@ -53,6 +64,7 @@ var orcid = function(){
 					}	
 					$('#output').append('"EMPLOYMENT","'+orcidID +'","'+orgTitle +'","'+id1+'","'+idType1+'",""\n');
 				});
+
 			if (data && data.obj && data.obj.educations && data.obj.educations["education-summary"])
 				var eduList = data.obj.educations["education-summary"].map(function(obj){ 
 					var orgTitle= obj.organization.name.replace(/,/g,"-");
@@ -62,15 +74,18 @@ var orcid = function(){
 					}	
 					$('#output').append('"EDUCATION","'+orcidID +'","'+orgTitle +'","'+id1+'","'+idType1+'",""\n');
 				});
+
 			if (data && data.obj && data.obj.fundings && data.obj.fundings.group)
 				var eduList = data.obj.fundings.group.map(function(obj){ 
-					var fundingTitle = obj["summary"][0].title.title.value.replace(/,/g,"-"); //funding title, not org name unti fix is 
-					var orgTitle = "";
-					if (obj["summary"][0].organization && obj["summary"][0].organization["disambiguated-organization"]){
-						var id1 = obj["summary"][0].organization["disambiguated-organization"]["disambiguated-organization-identifier"];
-						var idType1 = obj["summary"][0].organization["disambiguated-organization"]["disambiguation-source"];
-					}	
-					$('#output').append('"FUNDING","'+orcidID +'","'+orgTitle +'","'+id1+'","'+idType1+'","'+fundingTitle+'"\n');
+					client.apis["Public API v2.0_rc4"].viewFunding({orcid:orcidID,putCode:obj["summary"][0]["put-code"]},function(funding){
+						var fundingTitle = obj["summary"][0].title.title.value.replace(/,/g,"-"); 
+						var orgTitle = funding.obj.organization.name.replace(/,/g,"-");
+						if (funding.obj.organization && funding.obj.organization["disambiguated-organization"]){
+							var id1 = funding.obj.organization["disambiguated-organization"]["disambiguated-organization-identifier"];
+							var idType1 = funding.obj.organization["disambiguated-organization"]["disambiguation-source"];
+						}	
+						$('#output').append('"FUNDING","'+orcidID +'","'+orgTitle +'","'+id1+'","'+idType1+'","'+fundingTitle+'"\n');
+					});
 				});
 
 		});
@@ -101,6 +116,6 @@ Enter some orcids here, one per line (<a style="text-decoration: underline" oncl
 <textarea id="orcids" style="width: 50%; height: 150px;"></textarea>
 <button onclick="orcid.processTextArea()">process</button>
 <hr/>
-<textarea id="output" style="width: 100%; height: 250px;">Type, ORCID, Work/Org Title, ID, IDTYPE, Publisher/Funding Title
+<textarea id="output" style="width: 100%; height: 250px; font-family: courier;">Type, ORCID, Work/Org/Country/Funder Title, ID, IDTYPE, Journal/Funding Title
 </textarea>
 </body>
