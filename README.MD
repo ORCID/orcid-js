@@ -36,10 +36,11 @@ Then access the example at http://localhost:8000/example.html
 Where does the metadata come from?
 -----
 To generate citations, the library does the following:
+
 *	Obtain a public list of activites from an ORCID record
 *	For each work fetch authoritative citation metadata available using the **prefered source**
-  *  For works with DOIs, citeproc metadata is obtained directly from Crossref or Datacite
-  *  For other works, citeproc is obtained from the ORCID registry.  If there is a BibTeX citation, this is transformed into Citeproc-JSON, otherwise ORCID work metadata is used
+*  For works with DOIs, citeproc metadata is obtained directly from Crossref or Datacite
+*  For other works, citeproc is obtained from the ORCID registry.  If there is a BibTeX citation, this is transformed into Citeproc-JSON, otherwise ORCID work metadata is used
 *	For each work, attempt to create a URL based on the idenfifier
 *	Apply a [CSL citation style](http://citationstyles.org/) to generate reference list or BibTeX
 
